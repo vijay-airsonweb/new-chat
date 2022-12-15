@@ -2,6 +2,7 @@
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const port = process.env.PORT || 3000
 
 const {
   userJoinGroup,
@@ -32,7 +33,7 @@ io.on('connection', socket => {
     const user = userLeaveGroup(socket.id);
 
     if (user) {
-      console.log(`${user.username} is left the group!`);
+      console.log(`${user.username} is left the Chat!`);
       io.to(user.room).emit(
         'roomNotification',
         `${user.username} has left the group`,
@@ -41,6 +42,6 @@ io.on('connection', socket => {
   });
 });
 
-http.listen(3000, () => {
+http.listen(port, () => {
   console.log('listening on *:3000');
 });
